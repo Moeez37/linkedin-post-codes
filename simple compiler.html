@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Online JavaScript Compiler by Moeez Hayder. Execute and test JavaScript code online with real-time results and log output. Contact: haydermoeez@gmail.com">
+    <meta name="keywords" content="JavaScript, Online Compiler, Code Execution, Moeez Hayder">
+    <meta name="author" content="Moeez Hayder">
+    <meta property="og:title" content="Online JavaScript Compiler">
+    <meta property="og:description" content="Run and test JavaScript code online with this easy-to-use compiler. Developed by Moeez Hayder. Contact: haydermoeez@gmail.com">
+    <meta name="contact" content="haydermoeez@gmail.com">
+    <meta name="linkedin" content="https://www.linkedin.com/in/moeez-hayder/">
+    <title>Online JavaScript Compiler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Online JavaScript Compiler</h1>
+
+        <textarea id="code-input" rows="10"
+            class="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Write your JavaScript code here..."></textarea>
+
+        <button onclick="compileCode()"
+            class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+            Run Code
+        </button>
+
+        <div class="mt-4">
+            <h2 class="text-xl font-semibold text-gray-800">Output:</h2>
+            <pre id="output" class="bg-gray-900 text-green-500 p-4 mt-2 rounded-lg overflow-auto"></pre>
+        </div>
+    </div>
+
+    <script>
+        function compileCode() {
+            const code = document.getElementById("code-input").value;
+            let result;
+            let logs = [];
+
+            const originalConsoleLog = console.log;
+
+
+            console.log = function (...args) {
+                logs.push(args.join(' '));
+            };
+
+            try {
+                result = new Function(code)();
+            } catch (error) {
+                result = error.message;
+                document.getElementById("output").textContent = result
+            } finally {
+                console.log = originalConsoleLog;
+                document.getElementById("output").textContent = logs.length > 0
+            ? `\nLogs:\n${logs.join('\n')}`
+            : result;
+            }
+
+        }
+    </script>
+</body>
+
+</html>
